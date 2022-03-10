@@ -26,7 +26,7 @@ export class Tab3Page {
         email: 'email',
         password: '123'
       }).toPromise().then((data: any) => {
-        console.log(jwt_decode(data.token))
+        console.log(data.token)
       })
 
   }
