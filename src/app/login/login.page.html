@@ -8,8 +8,8 @@
     <p>Lets get started</p>
   </div>
 
-  <ion-input placeholder="Username" class="primary-input"></ion-input>
-  <ion-input placeholder="Password" type="password" class="primary-input"></ion-input>
+  <ion-input [(ngModel)]="email" placeholder="Username" class="primary-input"></ion-input>
+  <ion-input [(ngModel)]="password" placeholder="Password" type="password" class="primary-input"></ion-input>
 
   <div class="ion-margin-top ion-text-right forget">
     <a>Forgot Password?</a>
@@ -23,4 +23,3 @@
     <a (click)="dismiss()">Close</a>
   </div>
 </ion-content>
-
