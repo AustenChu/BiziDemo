@@ -1,25 +1,35 @@
-<ion-header>
+import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
-</ion-header>
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
+})
+export class LoginPage implements OnInit {
 
-<ion-content class="ion-padding">
-  <div class="title">
-    <h4>Login</h4>
-    <p>Lets get started</p>
-  </div>
+  email: ''
+  password: ''
+  constructor(
+    private http: HttpClient,
+    public modalCtrl: ModalController,
+  ) { }
 
-  <ion-input [(ngModel)]="email" placeholder="Username" class="primary-input"></ion-input>
-  <ion-input [(ngModel)]="password" placeholder="Password" type="password" class="primary-input"></ion-input>
+  ngOnInit() {
+  }
 
-  <div class="ion-margin-top ion-text-right forget">
-    <a>Forgot Password?</a>
-  </div>
+  login() {
+    let post_url = 'http://brysonreese.duckdns.org:5000/api/v1/users/authenticate'
 
-  <div class="ion-margin-top">
-    <ion-button expand="block" (click)="login()">LOGIN</ion-button>
-  </div>
-
-  <div class="ion-margin-top ion-text-center">
-    <a (click)="dismiss()">Close</a>
-  </div>
-</ion-content>
+      this.http.post(post_url, {
+        email: this.email,
+        password: this.password
+      }).toPromise().then((data: any) => {
+        console.log(data.token)
+      })
+  }
+  async dismiss() {
+    await this.modalCtrl.dismiss();
+  }
+}
