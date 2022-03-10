@@ -6,7 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: Tab3Page,
-  }
+  },
+  {
+    path: 'household-management',
+    loadChildren: () => import('./household-management/household-management.module').then( m => m.HouseholdManagementPageModule)
+  },
 ];
 
 @NgModule({
