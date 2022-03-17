@@ -1,7 +1,8 @@
 {
   "name": "Bizi",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

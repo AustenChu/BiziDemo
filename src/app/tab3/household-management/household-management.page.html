@@ -5,27 +5,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Create a house and add roommates</ion-card-title>
-    </ion-card-header>
-  </ion-card>
   <div class="center">
-    <ion-input [(ngModel)]="household" type="text" placeholder="Household name" class="inputId"></ion-input>
-    <ion-row>
-      <div *ngIf="emails.length === 0">
-        <ion-button color="medium" (click)="submit()">Submit</ion-button>
-        <ion-button item-right color="medium" (click)="addNewEmail()" class="flex-box">+</ion-button>
-        <ion-button item-left color="medium" class="flex-box">-</ion-button>
-      </div>
-    </ion-row>
+    <ion-input [(ngModel)]="household" type="text" placeholder="Household name" required></ion-input>
     <div *ngFor="let email of emails; let i = index; trackBy:trackByFn">
-      <ion-input [(ngModel)]="emails[i]" type="text" placeholder="roommate@domain.com" class="inputId"></ion-input>
+      <ion-input [(ngModel)]="emails[i]" type="text" placeholder="roommate@email.com" class="inputId"></ion-input>
       <ion-row>
         <div *ngIf="i === (emails.length - 1)">
-          <ion-button color="medium" (click)="submit()">Submit</ion-button>
-          <ion-button item-right color="medium" (click)="addNewEmail()" float="right" class="flex-box">+</ion-button>
-          <ion-button item-left color="medium" (click)="deleteEmail()" float="right" class="flex-box">-</ion-button>
+          <ion-button color="medium" (click)="submit()" size="small">Submit</ion-button>
+          <ion-button item-right color="medium" (click)="addNewEmail()" size="small" float="right">+</ion-button>
+          <ion-button item-left color="medium" [disabled]="emails.length === 1" (click)="deleteEmail()" size="small" float="right">-</ion-button>
         </div>
       </ion-row>
     </div>

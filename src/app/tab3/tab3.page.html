@@ -21,13 +21,19 @@
   </ion-header>
 
   <ion-card>
-    <ion-row>
-      <ion-card-header>
-        <ion-card-subtitle>Bizi</ion-card-subtitle>
-      <ion-card-title>WELCOME HOME</ion-card-title>
-      </ion-card-header>
-      <ion-button class="setRight" color = "light" [routerLink]= "['household-management']" float="right">Household management</ion-button>
-    </ion-row>
+    <ion-grid>
+      <ion-row>
+        <ion-column size="12">
+          <ion-card-header>
+            <ion-card-subtitle>Bizi</ion-card-subtitle>
+            <ion-card-title>WELCOME HOME</ion-card-title>
+          </ion-card-header>
+        </ion-column>
+        <ion-column size="12">
+          <ion-button style="float:right" color = "light" [routerLink]= "['household-management']" >Household management</ion-button>
+        </ion-column>
+      </ion-row>
+    </ion-grid>
   </ion-card>
 
   <ion-card>
@@ -76,5 +82,9 @@
   </ion-card>
 
   <ion-button (click)="runHttp()">run Http</ion-button>
+  <h1>{{errorMsg}}</h1>
+  <div *ngFor="let user of users">
+    <p>{{user.uid}} {{user.name}} {{user.email}} {{user.password}}</p>
+  </div>
 
 </ion-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpService } from '../../http.service'
 
 @Component({
   selector: 'app-household-management',
@@ -10,7 +11,7 @@ export class HouseholdManagementPage implements OnInit {
 
   emails: any[] = [];
   household=''
-  constructor(private http: HttpClient ) { }
+  constructor(private httpService: HttpService ) { }
 
   ngOnInit() {
     this.emails.push('')
@@ -21,7 +22,8 @@ export class HouseholdManagementPage implements OnInit {
   }
 
   deleteEmail() {
-  this.emails.pop();
+    this.emails.pop();
+
   }
 
   trackByFn(index: any, item: any) {
@@ -29,14 +31,8 @@ export class HouseholdManagementPage implements OnInit {
   }
 
   submit() {
-    console.log(this.household)
-    console.log(this.emails)
-    this.http.post('http://brysonreese.duckdns.org:5000/api/v1/households/', {
-      name: this.household,
-      members: this.emails
-    }).toPromise().then((data: any) => {
-      console.log(data)
-    })
+    this.httpService.add_household(this.household, this.emails)
+      .subscribe(data => console.log(data))
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,23 +12,24 @@ export class LoginPage implements OnInit {
 
   email: ''
   password: ''
+  error: ''
+
   constructor(
-    private http: HttpClient,
-    public modalCtrl: ModalController,
+    private authService: AuthService,
+    private router: Router,
+    public modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
   }
 
   login() {
-    let post_url = 'http://brysonreese.duckdns.org:5000/api/v1/users/authenticate'
-
-      this.http.post(post_url, {
-        email: this.email,
-        password: this.password
-      }).toPromise().then((data: any) => {
-        console.log(data.token)
-      })
+    this.authService.login(this.email, this.password).subscribe(data => {
+      if (!this.authService.isError) {
+        this.dismiss()
+        this.router.navigate(['../tabs/tab3'])
+      }
+    })
   }
   async dismiss() {
     await this.modalCtrl.dismiss();
