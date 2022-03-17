@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service'
-import { tap, shareReplay } from 'rxjs/operators'
+import { HttpErrorResponse } from '@angular/common/http'
+import { tap, shareReplay, catchError } from 'rxjs/operators'
+import { throwError } from 'rxjs'
 import { Storage } from '@ionic/storage-angular';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +28,7 @@ export class AuthService {
     .pipe(tap(
       data => {
         this.setSession(data);
-        this.isError = false;
-      }, 
-        error => this.isError = true),
-    shareReplay())  
+      }))
   }
 
   public register(name: string, email:string, password:string) {
@@ -35,10 +36,7 @@ export class AuthService {
     .pipe(tap(
       data => {
           this.setSession(data);
-          this.isError = false;
-        }, 
-        error => this.isError = true),
-    shareReplay())  
+        })) 
   }
 
   private setSession(authResult) {

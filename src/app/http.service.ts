@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User, Household, JWT } from './http-types'
 import { Observable, throwError } from 'rxjs'
 import { catchError }  from 'rxjs/operators'
@@ -85,6 +85,6 @@ export class HttpService {
   }
 
   private errorHandler(error: HttpErrorResponse) {
-    return throwError(error.message || "Server Error")
+    return throwError(error.error.message || "Server Error")
   }
 }

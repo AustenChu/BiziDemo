@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { AuthService } from '../auth.service'
 import { Router } from '@angular/router';
 
@@ -17,21 +17,34 @@ export class LoginPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public alert: AlertController
   ) { }
 
   ngOnInit() {
   }
 
   login() {
-    this.authService.login(this.email, this.password).subscribe(data => {
-      if (!this.authService.isError) {
-        this.dismiss()
-        this.router.navigate(['../tabs/tab3'])
-      }
+    this.authService.login(this.email, this.password).subscribe((data => {
+      this.dismiss()
+      this.router.navigate(['../tabs/tab3'])
+    }),
+    error => {
+      this.presentAlert(error)
     })
   }
+
   async dismiss() {
     await this.modalCtrl.dismiss();
+  }
+
+  async presentAlert(error) {
+    const alert = await this.alert.create({
+      header: (error === "no email found" || error === "no password found" ? "The username or password is incorrect" : "Unknown error"),
+      message: "Please try again",
+      buttons: ['OK']
+    })
+
+    await alert.present();
   }
 }
