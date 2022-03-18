@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service'
-import { HttpErrorResponse } from '@angular/common/http'
 import { tap, shareReplay, catchError } from 'rxjs/operators'
-import { throwError } from 'rxjs'
 import { Storage } from '@ionic/storage-angular';
 
 

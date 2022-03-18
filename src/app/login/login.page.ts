@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, LoadingController} from '@ionic/angular';
 import { AuthService } from '../auth.service'
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -12,24 +13,28 @@ export class LoginPage implements OnInit {
 
   email: ''
   password: ''
-  error: ''
+  loading: any
 
   constructor(
     private authService: AuthService,
     private router: Router,
     public modalCtrl: ModalController,
-    public alert: AlertController
+    public alertController: AlertController,
+    public loadingController: LoadingController
   ) { }
 
   ngOnInit() {
   }
 
   login() {
+    this.presentLoading()
     this.authService.login(this.email, this.password).subscribe((data => {
+      this.loading.dismiss()
       this.dismiss()
       this.router.navigate(['../tabs/tab3'])
     }),
     error => {
+      this.loading.dismiss()
       this.presentAlert(error)
     })
   }
@@ -38,13 +43,21 @@ export class LoginPage implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
-  async presentAlert(error) {
-    const alert = await this.alert.create({
-      header: (error === "no email found" || error === "no password found" ? "The username or password is incorrect" : "Unknown error"),
-      message: "Please try again",
+  async presentAlert(error: string) {
+    const alert = await this.alertController.create({
+      header: (error === "wrong credentials" ? "The username or password is incorrect" : "Unknown error"),
+      message: (error === "wrong credentials" ? "Please try again" : "Please try again later"),
       buttons: ['OK']
     })
 
     await alert.present();
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Please wait...',
+      spinner: 'bubbles'
+    });
+    await this.loading.present();
   }
 }

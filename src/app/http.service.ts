@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { User, Household, JWT } from './http-types'
+import { User, Household} from './http-types'
 import { Observable, throwError } from 'rxjs'
 import { catchError }  from 'rxjs/operators'
 

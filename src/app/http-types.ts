@@ -12,7 +12,3 @@ export interface Household {
   members?: number[],
   notes?: JSON[]
 }
-
-export interface JWT {
-  token: string
-}
