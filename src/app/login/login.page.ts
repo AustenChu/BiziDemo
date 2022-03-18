@@ -3,7 +3,6 @@ import { AlertController, ModalController, LoadingController} from '@ionic/angul
 import { AuthService } from '../auth.service'
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -20,7 +19,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
@@ -30,8 +29,8 @@ export class LoginPage implements OnInit {
     this.presentLoading()
     this.authService.login(this.email, this.password).subscribe((data => {
       this.loading.dismiss()
-      this.dismiss()
       this.router.navigate(['../tabs/tab3'])
+      this.dismiss()
     }),
     error => {
       this.loading.dismiss()
