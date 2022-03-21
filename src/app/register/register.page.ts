@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, LoadingController} from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,7 @@ export class RegisterPage implements OnInit {
   loading: any
   constructor(
     private authService: AuthService,
+    private httpService: HttpService,
     private router: Router,
     public modalCtrl: ModalController,
     public alertController: AlertController,
@@ -34,7 +36,7 @@ export class RegisterPage implements OnInit {
       }),
       error => {
         this.loading.dismiss()
-        this.presentAlert()
+        this.presentAlert(error)
       })
   }
 
@@ -42,10 +44,10 @@ export class RegisterPage implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
-  async presentAlert() {
+  async presentAlert(e: string) {
     const alert = await this.alertController.create({
-      header: "Unknown error",
-      message: "Please try again later",
+      header: e === "Email not sent" ? "The email is not valid" : "Unknown error",
+      message: e === "Email not sent" ? "Please try again" : "Please try again later",
       buttons: ['OK']
     })
     

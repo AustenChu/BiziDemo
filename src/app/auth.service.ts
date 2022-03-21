@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service'
-import { tap, shareReplay, catchError } from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
 import { Storage } from '@ionic/storage-angular';
-
-
 
 @Injectable({
   providedIn: 'root'

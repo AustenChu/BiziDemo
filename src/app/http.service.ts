@@ -11,7 +11,7 @@ import { catchError }  from 'rxjs/operators'
 export class HttpService {
 
   base_url = 'http://brysonreese.duckdns.org:5000';
-  user_routes = ['/api/v1/users', '/api/v1/users/authenticate']
+  user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email']
   household_route = '/api/v1/households'
   constructor(private http: HttpClient) { }
 
