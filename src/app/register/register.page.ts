@@ -28,26 +28,37 @@ export class RegisterPage implements OnInit {
   }
 
   register() {
-    this.presentLoading()
-    this.authService.register(this.name, this.email, this.password).subscribe((data => {
-        this.loading.dismiss()
-        this.dismiss();
-        this.router.navigate(['../tabs/tab3']);
-      }),
-      error => {
-        this.loading.dismiss()
-        this.presentAlert(error)
-      })
+    let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (this.email.match(validRegex)) {
+      this.presentLoading()
+      this.authService.register(this.name, this.email, this.password).subscribe((data => {
+          this.loading.dismiss()
+          this.presentAlert("Check email for verification", "", "")
+        }),
+        error => {
+          this.loading.dismiss()
+          if (error != "Account already exists") {
+            this.presentAlert("Unknown error", "Is the email valid? Do you already have an account?", "Please try again later.")
+          }
+          else {
+            this.presentAlert("Check email for verification", "", "")
+          }
+        })
+    }
+    else {
+      this.presentAlert("The email is not valid", "", "Please try again")
+    }
   }
 
   async dismiss() {
     await this.modalCtrl.dismiss();
   }
 
-  async presentAlert(e: string) {
+  async presentAlert(h: string, s: string, m: string) {
     const alert = await this.alertController.create({
-      header: e === "Email not sent" ? "The email is not valid" : "Unknown error",
-      message: e === "Email not sent" ? "Please try again" : "Please try again later",
+      header: h,
+      subHeader:s,
+      message: m,
       buttons: ['OK']
     })
     
