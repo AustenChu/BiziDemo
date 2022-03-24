@@ -16,3 +16,11 @@ p {
     font-size: small;
     color: #999999;
 }
+
+.link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ion-color-primary);
+
+}
