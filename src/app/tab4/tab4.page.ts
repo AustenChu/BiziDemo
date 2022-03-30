@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { NotesService } from './notes.service';
-import { StorageService } from '../storage.service';
 
 
 @Component({
@@ -11,8 +9,6 @@ import { StorageService } from '../storage.service';
   styleUrls: ['tab4.page.scss']
 })
 export class Tab4Page implements OnInit {
-
-  abc = 3
 
   constructor(public notesService: NotesService, private alertCtrl: AlertController) {
   }
@@ -46,5 +42,9 @@ export class Tab4Page implements OnInit {
     }).then((alert) => {
       alert.present();
     });
+  }
+
+  loadNotes() {
+    this.notesService.load()
   }
 }
