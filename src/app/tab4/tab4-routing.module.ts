@@ -6,8 +6,12 @@ const routes: Routes = [
   {
     path: '',
     component: Tab4Page,
+  },
+  {
+    path: ':id',
+    loadChildren: () => import('./details/details.module').then(m => m.DetailsPageModule)
   }
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
