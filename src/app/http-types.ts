@@ -7,8 +7,13 @@ export interface User {
 }
 
 export interface Household {
-  hid: number,
-  name: string,
-  members?: number[],
-  notes?: JSON[]
+  hid: number;
+  name: string;
+  members?: number[];
+  notes?: JSON[];
+}
+
+export interface Message {
+  source: string;
+  content: string;
 }

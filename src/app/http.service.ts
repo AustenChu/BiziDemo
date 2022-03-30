@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { User, Household} from './http-types'
-import { Observable, throwError } from 'rxjs'
-import { catchError }  from 'rxjs/operators'
-
+import { User, Household, Message } from './http-types'
+import { Observable, Observer, Subject, throwError } from 'rxjs'
+import { catchError, map }  from 'rxjs/operators'
+import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,47 @@ export class HttpService {
   base_url = 'http://brysonreese.duckdns.org:5000';
   user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email']
   household_route = '/api/v1/households'
-  constructor(private http: HttpClient) { }
+
+  private subject: AnonymousSubject<MessageEvent>;
+  public messages: Subject<Message>;
+
+  constructor(private http: HttpClient) {
+    this.messages = <Subject<Message>>this.socket_connect("ws://" + this.base_url).pipe(
+      map(
+        (response: MessageEvent): Message => {
+          let data = JSON.parse(response.data)
+          return data
+        }
+      )
+    )
+   }
+
+  public socket_connect(url): AnonymousSubject<MessageEvent> {
+    if (!this.subject) {
+      this.subject = this.socket_create(url);
+    } 
+    return this.subject;
+  }
+
+  private socket_create(url): AnonymousSubject<MessageEvent> {
+      let ws = new WebSocket(url);
+      let observable = new Observable((obs: Observer<MessageEvent>) => {
+          ws.onmessage = obs.next.bind(obs);
+          ws.onerror = obs.error.bind(obs);
+          ws.onclose = obs.complete.bind(obs);
+          return ws.close.bind(ws);
+      });
+      let observer = {
+          error: null,
+          complete: null,
+          next: (data: Object) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                  ws.send(JSON.stringify(data));
+              }
+          }
+      };
+      return new AnonymousSubject<MessageEvent>(observer, observable);
+  }
 
   get_user(uid: string): Observable<User> {
     return this.http.get<User>(this.base_url + this.user_routes[0] + uid)
