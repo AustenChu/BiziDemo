@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Bill } from './bill';
+import { Chore } from './chore';
 import { AlertController } from '@ionic/angular';
 import { StorageService } from '../storage.service';
 
@@ -10,6 +11,7 @@ import { StorageService } from '../storage.service';
 })
 export class Tab2Page implements OnInit {
   bills: Bill[] = []
+  chores: Chore[] = []
   loaded: boolean = false
   constructor(private alertCtrl: AlertController, private storage: StorageService) {}
 
@@ -35,17 +37,17 @@ export class Tab2Page implements OnInit {
       inputs: [
         {
           type: 'text',
-          placeholder: 'Enter name of the bill',
+          placeholder: 'Enter Bill',
           name: 'name'
         },
         {
           type: 'text',
-          placeholder: 'Enter amount',
+          placeholder: 'Enter Amount',
           name: 'amount'
         },
         {
           type: 'text',
-          placeholder: 'Enter date due',
+          placeholder: 'Enter Due Date',
           name: 'date'
         }
       ],
@@ -70,8 +72,29 @@ export class Tab2Page implements OnInit {
     });
   }
 
+  addChore() {
+    this.bills.pop()
+  }
+  load() {
+    new Promise((resolve) => {
+      this.storage.getData('bills').then((bills) => {
+
+          // Only set this.notes to the returned value if there were values stored
+          if(bills != null){
+            this.bills = bills;
+          }
+
+        // This allows us to check if the data has been loaded in or not
+        this.loaded = true;
+        resolve(true);
+      });
+    });
+  }
+  
   save() {
     this.storage.setData('bills', this.bills);
   }
+
+  
 
 }

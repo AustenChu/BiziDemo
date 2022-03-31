@@ -30,19 +30,7 @@
       </ion-row>
     </ion-grid>
   </ion-card>
-
-  <ion-card>
-    <ion-item>
-      <ion-icon size="large" name="people-outline" slot="start"></ion-icon>
-      <ion-label>Roommates</ion-label>
-    </ion-item>
-    <ion-list>
-      <ion-item>
-        <ion-label>Roomate 1</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
+  
   <ion-card>
     <ion-item>
       <ion-icon size="large" name="layers-outline" slot="start"></ion-icon>
@@ -50,19 +38,10 @@
     </ion-item>
 
     <ion-list>
-      <ion-item>
-        <ion-label>Chore 1</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Chore 2</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Bill 1</ion-label>
-      </ion-item>
+      <ion-item>Nothing Due Today!</ion-item>
     </ion-list>
   </ion-card>
 
-  <ion-button (click)="runHttp()">run Http</ion-button>
   <h1>{{errorMsg}}</h1>
   <div *ngFor="let user of users">
     <p>{{user.uid}} {{user.name}} {{user.email}} {{user.password}}</p>

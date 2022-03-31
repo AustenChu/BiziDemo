@@ -1,9 +1,4 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Scheduling
-    </ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-header>
@@ -29,5 +24,7 @@
       <ion-label>{{ note.title }}</ion-label>
     </ion-item>
   </ion-list>
-  <ion-button (click)="loadNotes()" color="light">Reload</ion-button>
+  <ion-button expand="block" (click)="loadNotes()" color="light">
+    <ion-icon name="refresh-outline"></ion-icon>
+  </ion-button>
 </ion-content>
