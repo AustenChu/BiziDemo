@@ -147,7 +147,12 @@ export class Tab2Page implements OnInit {
   saveChores() {
     this.storage.setData('chores', this.chores)
   }
-
   
+  deleteAll() {
+    this.bills = []
+    this.chores = []
+    this.storage.removeData('bills')
+    this.storage.removeData('chores')
+  }
 
 }
