@@ -12,10 +12,6 @@ export class NotesService {
   constructor(private storage: StorageService) {
   }
 
-  wtf() {
-    return this.notes
-  }
-
   load(): Promise<boolean> {
 
     // Return a promise so that we know when this operation has completed
