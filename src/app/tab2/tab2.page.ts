@@ -12,23 +12,13 @@ import { StorageService } from '../storage.service';
 export class Tab2Page implements OnInit {
   bills: Bill[] = []
   chores: Chore[] = []
-  loaded: boolean = false
+  billsLoaded: boolean = false
+  choresLoaded: boolean = false
   constructor(private alertCtrl: AlertController, private storage: StorageService) {}
 
   ngOnInit(): void {
-    new Promise((resolve) => {
-      this.storage.getData('bills').then((bills) => {
-
-          // Only set this.notes to the returned value if there were values stored
-          if(bills != null){
-            this.bills = bills;
-          }
-
-        // This allows us to check if the data has been loaded in or not
-        this.loaded = true;
-        resolve(true);
-      });
-    });
+    this.loadBills()
+    this.loadChores()
   }
 
   async addBill() {
@@ -63,7 +53,7 @@ export class Tab2Page implements OnInit {
               amount: data.amount,
               date: data.date
             });
-            this.save();
+            this.saveBills();
           }
         }
       ]
@@ -72,10 +62,53 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  addChore() {
-    this.bills.pop()
+  async addChore() {
+    this.alertCtrl.create({
+      header: 'Add a chore',
+      inputs: [
+        {
+          type: 'text',
+          placeholder: 'Enter Chore',
+          name: 'name'
+        },
+        {
+          type: 'text',
+          placeholder: 'Enter Roommate',
+          name: 'roomate'
+        },
+        {
+          type: 'text',
+          placeholder: 'Enter Due Date',
+          name: 'day'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Save',
+          handler: (data) => {
+            this.chores.push({
+              name: data.name,
+              roomate: data.roomate,
+              day: data.day
+            });
+            this.saveChores();
+          }
+        }
+      ]
+    }).then((alert) => {
+      alert.present();
+    });
   }
+
   load() {
+    this.loadBills()
+    this.loadChores()
+  }
+
+  loadBills() {
     new Promise((resolve) => {
       this.storage.getData('bills').then((bills) => {
 
@@ -85,14 +118,34 @@ export class Tab2Page implements OnInit {
           }
 
         // This allows us to check if the data has been loaded in or not
-        this.loaded = true;
+        this.billsLoaded = true;
+        resolve(true);
+      });
+    });
+  }
+
+  loadChores() {
+    new Promise((resolve) => {
+      this.storage.getData('chores').then((chores) => {
+
+          // Only set this.notes to the returned value if there were values stored
+          if(chores != null){
+            this.chores = chores;
+          }
+
+        // This allows us to check if the data has been loaded in or not
+        this.choresLoaded = true;
         resolve(true);
       });
     });
   }
   
-  save() {
+  saveBills() {
     this.storage.setData('bills', this.bills);
+  }
+
+  saveChores() {
+    this.storage.setData('chores', this.chores)
   }
 
   
