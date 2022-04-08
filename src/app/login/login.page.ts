@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, LoadingController} from '@ionic/angular';
-import { AuthService } from '../auth.service'
+import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router';
-import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-login',

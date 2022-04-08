@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { NotesService } from './notes.service';
+import { NotesService } from '../services/notes.service';
 
 
 @Component({
@@ -18,7 +18,6 @@ export class Tab4Page implements OnInit {
   }
 
   addNote(){
-
     this.alertCtrl.create({
       header: 'New Note',
       message: 'What should the title of this note be?',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { NotesService } from '../notes.service';
+import { NotesService } from '../../services/notes.service';
 import { Location } from '@angular/common'
-import { Note } from '../note';
+import { Note } from '../../types/note';
 
 
 @Component({

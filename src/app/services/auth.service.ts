@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from './http.service'
+import { NetworkService } from './network.service'
 import { tap } from 'rxjs/operators'
 import { StorageService } from './storage.service'
 
@@ -7,11 +7,11 @@ import { StorageService } from './storage.service'
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private httpService: HttpService, private storage: StorageService) {
+  constructor(private networkService: NetworkService, private storage: StorageService) {
    }
 
   public login(email:string, password:string) {
-    return this.httpService.check_password(email, password)
+    return this.networkService.check_password(email, password)
     .pipe(tap(
       data => {
         this.setSession(data);
@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   public register(name: string, email:string, password:string) {
-    return this.httpService.add_user(name, email, password)
+    return this.networkService.add_user(name, email, password)
     .pipe(tap(
       data => {
           this.setSession(data);

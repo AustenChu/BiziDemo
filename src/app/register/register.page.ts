@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, LoadingController} from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { HttpService } from '../http.service';
+import { AuthService } from '../services/auth.service';
+import { NetworkService } from '../services/network.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +17,7 @@ export class RegisterPage implements OnInit {
   loading: any
   constructor(
     private authService: AuthService,
-    private httpService: HttpService,
+    private networkService: NetworkService,
     private router: Router,
     public modalCtrl: ModalController,
     public alertController: AlertController,

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Bill } from './bill';
-import { Chore } from './chore';
+import { Bill } from '../types/bill';
+import { Chore } from '../types/chore';
 import { AlertController } from '@ionic/angular';
-import { StorageService } from '../storage.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tab2',
@@ -17,8 +17,7 @@ export class Tab2Page implements OnInit {
   constructor(private alertCtrl: AlertController, private storage: StorageService) {}
 
   ngOnInit(): void {
-    this.loadBills()
-    this.loadChores()
+    this.load()
   }
 
   async addBill() {

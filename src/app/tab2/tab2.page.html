@@ -16,6 +16,11 @@
     <ion-card-header>
       <ion-card-title>Bills</ion-card-title>
     </ion-card-header>
+    <ion-item>
+      <ion-label> Title </ion-label>
+      <ion-label> Roomie </ion-label>
+      <ion-label> Days </ion-label>
+    </ion-item>
     <ion-list>
       <ion-item *ngFor="let bill of bills">
         <ion-label> {{ bill.name }} </ion-label>

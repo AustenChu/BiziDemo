@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../http.service'
+import { NetworkService } from '../../services/network.service'
+import { AlertController, LoadingController} from '@ionic/angular';
 
 @Component({
   selector: 'app-household-management',
@@ -10,7 +11,9 @@ export class HouseholdManagementPage implements OnInit {
 
   emails: any[] = [];
   household=''
-  constructor(private httpService: HttpService ) { }
+  loading: any
+
+  constructor(private networkService: NetworkService, private alertController: AlertController, private loadingController: LoadingController) { }
 
   ngOnInit() {
     this.emails.push('')
@@ -30,8 +33,33 @@ export class HouseholdManagementPage implements OnInit {
   }
 
   submit() {
-    this.httpService.add_household(this.household, this.emails)
-      .subscribe(data => console.log(data))
+    this.presentLoading()
+    this.networkService.add_household(this.household, this.emails)
+      .subscribe(data => {
+        this.loading.dismiss();
+        this.presentAlert("Household added", "", "")
+      },
+      (error => {
+        this.presentAlert("Unknown error", "", "Plese try again later")
+      }))
+  }
+
+  async presentAlert(h: string, s: string, m: string) {
+    const alert = await this.alertController.create({
+      header: h,
+      subHeader: s,
+      message: m,
+      buttons: ['OK']
+    })
+    await alert.present();
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Please wait...',
+      spinner: 'bubbles'
+    });
+    await this.loading.present();
   }
 
 }
