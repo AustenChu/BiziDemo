@@ -25,6 +25,14 @@ const routes: Routes = [
 {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'create-payment',
+    loadChildren: () => import('./create-payment/create-payment.module').then( m => m.CreatePaymentPageModule)
+  },
+  {
+    path: 'createsuccess',
+    loadChildren: () => import('./createsuccess/createsuccess.module').then( m => m.CreatesuccessPageModule)
   }
 
 ];

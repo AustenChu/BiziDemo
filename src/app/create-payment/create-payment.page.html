@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>New Payment Request</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Payment Request Title:</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-label>Payment Amount: $</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+  </ion-list> 
+  <ion-item>
+    <ion-label> Select Payment Date</ion-label>
+    <ion-datetime value="2021-012-06" min="2021" max="2025"
+      [dayShortNames]="customDayShortNames"
+      displayFormat="DDD. MMM DD, YYYY"
+      monthShortNames="Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"></ion-datetime>
+  </ion-item>
+  <ion-list>
+    <ion-item>
+      <ion-label>Roommates Included in Transaction:</ion-label>
+    </ion-item>
+  </ion-list> 
+  
+  <ion-list>
+    <ion-item>
+      <ion-label>Fate</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Bryson</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+      <ion-icon name="people-circle-outline"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label>Connor</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Austen</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <ion-button color="success" href="/createsuccess">CREATE</ion-button>
+  <ion-button href="/tab5">BACK</ion-button>
+</ion-content>
