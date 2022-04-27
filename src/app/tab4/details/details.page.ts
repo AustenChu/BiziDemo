@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { NotesService } from '../../services/notes.service';
+import { NetworkService } from '../../services/network.service'
 import { Location } from '@angular/common'
 import { Note } from '../../types/note';
+import { catchError, tap } from 'rxjs/operators';
+
 
 
 @Component({
@@ -21,7 +24,7 @@ export class DetailsPage implements OnInit {
       content: ''
     };
   }
-
+  
   ngOnInit() {
 
     // Get the id of the note from the URL

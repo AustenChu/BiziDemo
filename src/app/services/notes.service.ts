@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Note } from '../types/note'
-import { NetworkService } from './network.service'
 
 @Injectable({
   providedIn: 'root'

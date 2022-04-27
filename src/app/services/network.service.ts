@@ -15,44 +15,7 @@ export class NetworkService {
   user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email']
   household_route = '/api/v1/households'
 
-  private socket: WebSocketSubject<any>;
-  private messagesSubject = new Subject();
-  public messages = this.messagesSubject.pipe(switchAll(), catchError(e => { throw e }));
-
   constructor(private http: HttpClient) {
-  }
-
-  public socket_connect(cfg: { reconnect: boolean } = { reconnect: false }): void {
-   if (!this.socket || this.socket.closed) {
-     this.socket = this.getNewWebSocket();
-     const messages = this.socket.pipe(cfg.reconnect ? this.socket_reconnect : o => o, catchError(_ => EMPTY))
-     this.messagesSubject.next(messages);
-   }
- }
-
-  private socket_reconnect(observable: Observable<any>): Observable<any> {
-    return observable.pipe(retryWhen(errors => errors.pipe(delayWhen(_ => timer(2000))))); 
-  }
-
-  private getNewWebSocket() {
-    return webSocket({
-      url: "ws://" + this.base_url, 
-      closeObserver: {
-        next: () => {
-          console.log('[Network Service]: connection closed');
-          this.socket = undefined;
-          this.socket_connect({ reconnect: true })
-        }
-      },
-    });
-  }
-
-  sendMessage(msg: any) {
-    this.socket.next(msg);
-  }
-
-  socket_close() {
-    this.socket.complete(); 
   }
 
   get_user(uid: string): Observable<User> {
