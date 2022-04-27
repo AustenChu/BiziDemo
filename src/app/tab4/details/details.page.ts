@@ -47,9 +47,10 @@ export class DetailsPage implements OnInit {
   }
 
   deleteNote(){
-    this.notesService.deleteNote(this.note);
-    this.navCtrl.setDirection("back", true, "back");
-    this._location.back();
+    this.notesService.deleteNote(this.note.id);
+    setTimeout(() => {
+      this.navCtrl.setDirection("back", true, "back");
+      this._location.back();
+    }, 100)
   }
-
 }

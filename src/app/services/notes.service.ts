@@ -56,8 +56,12 @@ export class NotesService {
   deleteNote(id): Promise<boolean> {
 
      return new Promise((resolve) => {
-       this.network.delete_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', id)
-       resolve(true)
+       this.network.delete_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', id).subscribe(Household => {})
+       const index = this.notes.findIndex(object => {
+         return object.id === id;
+       })
+      this.notes.splice(index, 1);
+      resolve(true)  
      });
   }
 }
