@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { NotesService } from '../services/notes.service';
+import { NetworkService } from '../services/network.service'
 
 
 @Component({
@@ -8,12 +9,17 @@ import { NotesService } from '../services/notes.service';
   templateUrl: 'tab4.page.html',
   styleUrls: ['tab4.page.scss']
 })
-export class Tab4Page implements OnInit {
+export class Tab4Page {
 
-  constructor(public notesService: NotesService, private alertCtrl: AlertController) {
+  constructor(public notesService: NotesService, private alertCtrl: AlertController, networkService: NetworkService) {
+    this.notesService.load();
   }
 
-  ngOnInit(){
+  ionViewWillEnter() {
+    this.notesService.load();
+  }
+
+  save() {
     this.notesService.load();
   }
 

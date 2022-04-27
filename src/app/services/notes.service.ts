@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Note } from '../types/note'
+import { NetworkService } from './network.service'
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class NotesService {
   public notes: Note[] = [];
   public loaded: boolean = false;
 
-  constructor(private storage: StorageService) {
+  constructor(private storage: StorageService, private network: NetworkService) {
   }
 
   load(): Promise<boolean> {
@@ -18,17 +19,13 @@ export class NotesService {
     return new Promise((resolve) => {
 
       // Get the notes that were saved into storage
-      this.storage.getData('notes').then((notes) => {
-
+      this.network.get_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6').subscribe((notes) => {
         // Only set this.notes to the returned value if there were values stored
-        if(notes != null){
+        if(notes != null) {
           this.notes = notes;
         }
-
       // This allows us to check if the data has been loaded in or not
-      this.loaded = true;
       resolve(true);
-
       });
 
     });
@@ -54,20 +51,13 @@ export class NotesService {
       title: title,
       content: ''
     });
-
-    this.save();
   }
 
-  deleteNote(note): void {
+  deleteNote(id): Promise<boolean> {
 
-    // Get the index in the array of the note that was passed in
-    let index = this.notes.indexOf(note);
-
-    // Delete that element of the array and resave the data
-    if(index > -1){
-      this.notes.splice(index, 1);
-      this.save();
-    }
-
+     return new Promise((resolve) => {
+       this.network.delete_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', id)
+       resolve(true)
+     });
   }
 }
