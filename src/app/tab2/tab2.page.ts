@@ -3,20 +3,23 @@ import { Bill } from '../types/bill';
 import { Chore } from '../types/chore';
 import { AlertController } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
+import { NetworkService } from '../services/network.service'
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit {
+export class Tab2Page {
   bills: Bill[] = []
   chores: Chore[] = []
   billsLoaded: boolean = false
   choresLoaded: boolean = false
-  constructor(private alertCtrl: AlertController, private storage: StorageService) {}
+  constructor(private alertCtrl: AlertController, private storage: StorageService, private network: NetworkService, private http: HttpClient) {}
 
-  ngOnInit(): void {
+  ionViewWillEnter() {
     this.load()
   }
 
@@ -109,15 +112,9 @@ export class Tab2Page implements OnInit {
 
   loadBills() {
     new Promise((resolve) => {
-      this.storage.getData('bills').then((bills) => {
-
-          // Only set this.notes to the returned value if there were values stored
-          if(bills != null){
-            this.bills = bills;
-          }
-
-        // This allows us to check if the data has been loaded in or not
-        this.billsLoaded = true;
+      this.network.get_bills('7c56334f-b8ac-4aab-83fd-9375715c6ae6').subscribe((bills) => {
+         //This allows us to check if the data has been loaded in or not
+        this.bills = bills;
         resolve(true);
       });
     });
@@ -125,22 +122,15 @@ export class Tab2Page implements OnInit {
 
   loadChores() {
     new Promise((resolve) => {
-      this.storage.getData('chores').then((chores) => {
-
-          // Only set this.notes to the returned value if there were values stored
-          if(chores != null){
-            this.chores = chores;
-          }
-
-        // This allows us to check if the data has been loaded in or not
-        this.choresLoaded = true;
+      this.network.get_chores('7c56334f-b8ac-4aab-83fd-9375715c6ae6').subscribe((chores) => {
+         //This allows us to check if the data has been loaded in or not
+        this.chores = chores;
         resolve(true);
       });
     });
   }
   
   saveBills() {
-    this.storage.setData('bills', this.bills);
   }
 
   saveChores() {
