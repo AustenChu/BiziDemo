@@ -87,7 +87,7 @@ export class NetworkService {
       .pipe(catchError(this.errorHandler))
   }
 
-  post_notes(hid: string, notes?: JSON[]) {
+  post_notes(hid: string, notes?: Note[]) {
     return this.http.post<Household>(this.base_url + this.household_routes[1] + '/' + hid, {
       hid: hid,
       notes: notes

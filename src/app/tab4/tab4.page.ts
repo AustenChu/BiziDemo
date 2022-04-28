@@ -23,10 +23,6 @@ export class Tab4Page {
     this.notesService.load();
   }
 
-  refresh() {
-    this.notesService.load()
-  }
-
   addNote(){
     this.alertCtrl.create({
       header: 'New Note',
@@ -45,6 +41,7 @@ export class Tab4Page {
           text: 'Save',
           handler: (data) => {
             this.notesService.createNote(data.title);
+              setTimeout(() => {}, 100)
           }
         }
       ]
