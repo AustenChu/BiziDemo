@@ -14,7 +14,7 @@ import { webSocket, WebSocketSubject  } from 'rxjs/webSocket';
 export class NetworkService {
 
   base_url = 'http://brysonreese.duckdns.org:5000';
-  user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email', '/api/v1/user/hid']
+  user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email', '/api/v1/users/hid']
   household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit', '/api/v1/households/bills', '/api/v1/households/tasks']
 
   constructor(private http: HttpClient) {
@@ -54,12 +54,7 @@ export class NetworkService {
   delete_user(uid: string) {
     return this.http.delete<string>(this.base_url + this.user_routes[0] + uid)
       .pipe(catchError(this.errorHandler))
-  }
-
-  get_hid(uid: string) {
-    return this.http.get<string>(this.base_url + this.user_routes[3] + '/' + uid)
-      .pipe(catchError(this.errorHandler))
-  }
+  } 
 
   get_household(hid: string) {
     return this.http.get<Household>(this.base_url + this.household_routes[0] + hid)
@@ -126,16 +121,38 @@ export class NetworkService {
     return this.http.get<Bill[]>(this.base_url + this.household_routes[3] + '/' + hid)
   }
 
-  post_bills(hid: string, bills: Bill[]) {
-    console.log(hid)
+  post_bills(hid: any, bills: Bill[]) {
     return this.http.post<Household>(this.base_url + this.household_routes[3] + '/' + hid, {
       bills: bills
     })
       .pipe(catchError(this.errorHandler))
   }
 
+  delete_bills(hid: string, id: string) {
+    return this.http.put<Household>(this.base_url + this.household_routes[3] + '/' + hid, {
+      id: id
+    })
+      .pipe(catchError(this.errorHandler))
+  }
+
+  post_chores(hid: string, chores: Chore[]) {
+    return this.http.post<Household>(this.base_url + this.household_routes[4] + '/' + hid, {
+      tasks: chores
+    })
+  }
+
+  delete_chores(hid: string, id: string) {
+    return this.http.put<Household>(this.base_url + this.household_routes[4] + '/' + hid, {
+      id: id
+    })
+  }
+
   get_chores(hid: string) {
     return this.http.get<Chore[]>(this.base_url + this.household_routes[4] + '/' + hid)
+  }
+
+  get_hid(uid: string) {
+    return this.http.get<string>(this.base_url + this.user_routes[3] + '/' + uid)
   }
 
   private errorHandler(error: HttpErrorResponse) {

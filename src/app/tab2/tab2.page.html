@@ -24,9 +24,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let bill of bills">
         <ion-item-options side="end">
-          <ion-item-option color="danger" expandable>
-            <ion-button>Delete</ion-button>
-          </ion-item-option>
+          <ion-item-option color="danger" expandable (click)="deleteBill(bill)"> Delete </ion-item-option>
         </ion-item-options>
 
         <ion-item>
@@ -46,9 +44,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let chore of chores">
         <ion-item-options side="end">
-          <ion-item-option color="danger" expandable>
-            Delete
-          </ion-item-option>
+          <ion-item-option color="danger" expandable (click)="deleteChore(chore)">Delete</ion-item-option>
         </ion-item-options>
 
         <ion-item>
@@ -64,6 +60,5 @@
   <ion-button expand="block" (click)="load()" color="light">
     <ion-icon name="refresh-outline"></ion-icon>
   </ion-button>
-  <ion-button expand="block" (click)="deleteAll()" color="light">Delete all tasks</ion-button>
 </ion-content>
 

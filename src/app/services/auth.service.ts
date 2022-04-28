@@ -10,12 +10,13 @@ export class AuthService {
   constructor(private networkService: NetworkService, private storage: StorageService) {
    }
 
-  public login(email:string, password:string) {
+  public  login(email:string, password:string) {
     return this.networkService.check_password(email, password)
     .pipe(tap(
       data => {
         this.setSession(data);
-      }))
+        })
+      )
   }
 
   public register(name: string, email:string, password:string) {

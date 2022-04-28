@@ -13,13 +13,17 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  bill: Bill
+  chore: Chore
   bills: Bill[] = []
   chores: Chore[] = []
+  hid: string
   billsLoaded: boolean = false
   choresLoaded: boolean = false
   constructor(private alertCtrl: AlertController, private storage: StorageService, private network: NetworkService, private http: HttpClient) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    this.hid = await this.storage.getData('hid').then(value => value)
     this.load()
   }
 
@@ -55,7 +59,6 @@ export class Tab2Page {
               amount: data.amount,
               date: data.date
             });
-            console.log("About to call save bills")
             this.saveBills();
           }
         }
@@ -113,7 +116,7 @@ export class Tab2Page {
 
   loadBills() {
     new Promise((resolve) => {
-      this.network.get_bills('7c56334f-b8ac-4aab-83fd-9375715c6ae6').subscribe((bills) => {
+      this.network.get_bills(this.hid).subscribe((bills) => {
          //This allows us to check if the data has been loaded in or not
         this.bills = bills;
         resolve(true);
@@ -123,7 +126,7 @@ export class Tab2Page {
 
   loadChores() {
     new Promise((resolve) => {
-      this.network.get_chores('7c56334f-b8ac-4aab-83fd-9375715c6ae6').subscribe((chores) => {
+      this.network.get_chores(this.hid).subscribe((chores) => {
          //This allows us to check if the data has been loaded in or not
         this.chores = chores;
         resolve(true);
@@ -132,26 +135,42 @@ export class Tab2Page {
   }
   
   saveBills() {
-    console.log("Save bills called")
+    console.log(this.hid)
     let a = []
     a[0] = this.bills[this.bills.length - 1]
-    console.log(a)
     new Promise((resolve) => {
-      this.network.post_bills('7c56334f-b8ac-4aab-83fd-9375715c6ae6', a).subscribe((bills) => {
+      this.network.post_bills(this.hid, a).subscribe((bills) => {
         resolve(true);
       })
     })
   }
 
   saveChores() {
-    this.storage.setData('chores', this.chores)
+    let a = []
+    a[0] = this.chores[this.chores.length - 1]
+    new Promise((resolve) => {
+      this.network.post_chores(this.hid, a).subscribe((chores) => {
+        resolve(true);
+      })
+    })
   }
   
-  deleteAll() {
-    this.bills = []
-    this.chores = []
-    this.storage.removeData('bills')
-    this.storage.removeData('chores')
+  deleteBill(bill: Bill) {
+     new Promise((resolve) => {
+        this.network.delete_bills(this.hid, bill.id).subscribe(bills => {
+          resolve(true)  
+        })
+      })
+    setTimeout(()=>{                           
+      this.load();
+    }, 100);
   }
 
+  deleteChore(chore: Chore) {
+     new Promise((resolve) => {
+        this.network.delete_chores(this.hid, chore.id).subscribe(chores => {
+          resolve(true)  
+        })
+      })
+  }
 }
