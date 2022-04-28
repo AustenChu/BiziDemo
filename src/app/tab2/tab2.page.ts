@@ -163,7 +163,7 @@ export class Tab2Page {
       })
     setTimeout(()=>{                           
       this.load();
-    }, 100);
+    }, 500);
   }
 
   deleteChore(chore: Chore) {
