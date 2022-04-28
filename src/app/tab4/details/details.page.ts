@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { NotesService } from '../../services/notes.service';
 import { NetworkService } from '../../services/network.service'
+import { StorageService } from '../../services/storage.service'
 import { Location } from '@angular/common'
 import { Note } from '../../types/note';
 import { catchError, tap } from 'rxjs/operators';
@@ -16,13 +17,18 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class DetailsPage implements OnInit {
   public note: Note;
+  private hid: string;
 
-  constructor(private _location: Location, private route: ActivatedRoute, private notesService: NotesService, private navCtrl: NavController) {
+  constructor(private _location: Location, private route: ActivatedRoute, private notesService: NotesService, private navCtrl: NavController, private storage: StorageService) {
     this.note = {
       id: '',
       title: '',
       content: ''
     };
+  }
+
+  async ionViewWillEnter() {
+    await this.storage.getData('hid').then(value => this.hid = value)
   }
   
   ngOnInit() {
@@ -36,18 +42,18 @@ export class DetailsPage implements OnInit {
       this.note = this.notesService.getNote(noteId)
     } 
     else {
-      this.notesService.load().then(() => {
+      this.notesService.load(this.hid).then(() => {
         this.note = this.notesService.getNote(noteId)
       });
     }
   }
 
   noteChanged(){
-    this.notesService.save(this.note);
+    this.notesService.save(this.note, this.hid);
   }
 
   deleteNote(){
-    this.notesService.deleteNote(this.note.id);
+    this.notesService.deleteNote(this.note.id, this.hid);
     this.navCtrl.setDirection("back", true, "back");
     this._location.back();
   }

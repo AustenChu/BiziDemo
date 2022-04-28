@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { NotesService } from '../services/notes.service';
 import { NetworkService } from '../services/network.service'
+import { StorageService } from '../services/storage.service'
 
 
 @Component({
@@ -11,19 +12,20 @@ import { NetworkService } from '../services/network.service'
 })
 export class Tab4Page {
 
-  constructor(public notesService: NotesService, private alertCtrl: AlertController, networkService: NetworkService) {
-    this.notesService.load();
+  hid: string
+
+  constructor(public notesService: NotesService, private alertCtrl: AlertController, private networkService: NetworkService, private storage: StorageService) {
   }
 
-  ionViewWillEnter() {
-
+  async ionViewWillEnter() {
+    await this.storage.getData('hid').then(value => this.hid = value)
     setTimeout(() => {
-      this.notesService.load();
+      this.notesService.load(this.hid);
     }, 500)
   }
 
   save() {
-    this.notesService.load();
+    this.notesService.load(this.hid);
   }
 
   addNote(){
@@ -43,7 +45,7 @@ export class Tab4Page {
         {
           text: 'Save',
           handler: (data) => {
-            this.notesService.createNote(data.title);
+            this.notesService.createNote(data.title, this.hid);
           }
         }
       ]
@@ -53,6 +55,6 @@ export class Tab4Page {
   }
 
   loadNotes() {
-    this.notesService.load()
+    this.notesService.load(this.hid)
   }
 }

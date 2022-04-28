@@ -13,13 +13,13 @@ export class NotesService {
   constructor(private storage: StorageService, private network: NetworkService) {
   }
 
-  load(): Promise<boolean> {
+  load(hid: string): Promise<boolean> {
 
     // Return a promise so that we know when this operation has completed
     return new Promise((resolve) => {
 
       // Get the notes that were saved into storage
-      this.network.get_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6').subscribe((notes) => {
+      this.network.get_notes(hid).subscribe((notes) => {
         // Only set this.notes to the returned value if there were values stored
         if(notes != null) {
           this.notes = notes;
@@ -32,10 +32,10 @@ export class NotesService {
 
   }
 
-  save(note: Note): void {
+  save(note: Note, hid: string): void {
     // Save the current array of notes to storage
     new Promise((resolve) => {
-      this.network.edit_note('7c56334f-b8ac-4aab-83fd-9375715c6ae6', note.id, note.content).subscribe((notes) => {
+      this.network.edit_note(hid, note.id, note.content).subscribe((notes) => {
         resolve(true)
       });
     });
@@ -45,7 +45,7 @@ export class NotesService {
     // Return the note that has an id matching the id passed in
     return this.notes.find(note => note.id === id);
   }
-  createNote(title: string): void {
+  createNote(title: string, hid: string): void {
 
     this.notes.push({
       title: title,
@@ -55,16 +55,16 @@ export class NotesService {
     let a = []
     a[0] = this.notes[this.notes.length - 1]
     new Promise((resolve) => {
-      this.network.post_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', a).subscribe((notes) => {
+      this.network.post_notes(hid, a).subscribe((notes) => {
         resolve(true);
       })
     })
   }
 
-  deleteNote(id): Promise<boolean> {
+  deleteNote(id, hid: string): Promise<boolean> {
 
      return new Promise((resolve) => {
-       this.network.delete_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', id).subscribe(Household => {})
+       this.network.delete_notes(hid, id).subscribe(Household => {})
        const index = this.notes.findIndex(object => {
          return object.id === id;
        })

@@ -23,7 +23,7 @@ export class Tab2Page {
   constructor(private alertCtrl: AlertController, private storage: StorageService, private network: NetworkService, private http: HttpClient) {}
 
   async ionViewWillEnter() {
-    this.hid = await this.storage.getData('hid').then(value => value)
+    await this.storage.getData('hid').then(value => this.hid = value)
     this.load()
   }
 
@@ -135,7 +135,6 @@ export class Tab2Page {
   }
   
   saveBills() {
-    console.log(this.hid)
     let a = []
     a[0] = this.bills[this.bills.length - 1]
     new Promise((resolve) => {
@@ -163,7 +162,7 @@ export class Tab2Page {
       })
     setTimeout(()=>{                           
       this.load();
-    }, 100);
+    }, 1000);
   }
 
   deleteChore(chore: Chore) {
