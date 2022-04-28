@@ -22,14 +22,14 @@
       <ion-label> Days </ion-label>
     </ion-item>
     <ion-list>
-      <ion-item-sliding>
-        <ion-item-options side = "end">
+      <ion-item-sliding *ngFor="let bill of bills">
+        <ion-item-options side="end">
           <ion-item-option color="danger" expandable>
             <ion-button>Delete</ion-button>
           </ion-item-option>
         </ion-item-options>
-      
-        <ion-item *ngFor="let bill of bills">
+
+        <ion-item>
           <ion-label> {{ bill.name }} </ion-label>
           <ion-label> {{ bill.amount }} </ion-label>
           <ion-label> {{ bill.date }} </ion-label>
@@ -42,17 +42,22 @@
     <ion-card-header>
       <ion-card-title>Chores</ion-card-title>
     </ion-card-header>
+
     <ion-list>
-      <ion-item>
-        <ion-label> Title </ion-label>
-        <ion-label> Roomie </ion-label>
-        <ion-label> Days </ion-label>
-      </ion-item>
-      <ion-item *ngFor="let chore of chores">
-        <ion-label> {{ chore.name }} </ion-label>
-        <ion-label> {{ chore.roomate }} </ion-label>
-        <ion-label> {{ chore.day }} </ion-label>
-      </ion-item>
+      <ion-item-sliding *ngFor="let chore of chores">
+        <ion-item-options side="end">
+          <ion-item-option color="danger" expandable>
+            Delete
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <ion-label> {{ chore.name }} </ion-label>
+          <ion-label> {{ chore.roomate }} </ion-label>
+          <ion-label> {{ chore.day }} </ion-label>
+        </ion-item>
+
+      </ion-item-sliding>
     </ion-list>
     <ion-button color="primary" expand = "block" (click) = "addChore()">New Chore</ion-button>
   </ion-card>
