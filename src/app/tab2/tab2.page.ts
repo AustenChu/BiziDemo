@@ -69,7 +69,6 @@ export class Tab2Page {
   }
 
   async addChore() {
-    console.log("test1")
     this.alertCtrl.create({
       header: 'Add a chore',
       inputs: [
@@ -96,12 +95,12 @@ export class Tab2Page {
         {
           text: 'Save',
           handler: (data) => {
+            console.log(this.chores)
             this.chores.push({
               name: data.name,
               roomate: data.roomate,
               day: data.day
             });
-            console.log("test2")
             this.saveChores();
           }
         }
@@ -120,6 +119,7 @@ export class Tab2Page {
     new Promise((resolve) => {
       this.network.get_bills(this.hid).subscribe((bills) => {
          //This allows us to check if the data has been loaded in or not
+        console.log(bills)
         this.bills = bills;
         resolve(true);
       });
@@ -130,6 +130,7 @@ export class Tab2Page {
     new Promise((resolve) => {
       this.network.get_chores(this.hid).subscribe((chores) => {
          //This allows us to check if the data has been loaded in or not
+        console.log(chores)
         this.chores = chores;
         resolve(true);
       });
@@ -173,5 +174,8 @@ export class Tab2Page {
           resolve(true)  
         })
       })
+      setTimeout(()=>{                           
+        this.load();
+      }, 500);
   }
 }
