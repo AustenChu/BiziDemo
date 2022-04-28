@@ -135,7 +135,6 @@ export class Tab2Page {
   }
   
   saveBills() {
-    console.log(this.hid)
     let a = []
     a[0] = this.bills[this.bills.length - 1]
     new Promise((resolve) => {
