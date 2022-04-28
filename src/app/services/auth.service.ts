@@ -27,8 +27,8 @@ export class AuthService {
   }
 
   private setSession(authResult) {
-
     this.storage.setData('id_token', authResult)
+    this.storage.setData('uid', atob(authResult["token"].split(".")[1]).split("sub\":\"")[1].split("\",\"iat\"")[0].replace(/(\w{8})(\w{4})(\w{4})(\w{4})(\w{12})/, "$1-$2-$3-$4-$5"))
   }
 
   logout() {
