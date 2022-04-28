@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tab5',
@@ -8,5 +10,4 @@ import { Component } from '@angular/core';
 export class Tab5Page {
 
   constructor() {}
-
 }
