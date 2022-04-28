@@ -55,6 +55,7 @@ export class Tab2Page {
               amount: data.amount,
               date: data.date
             });
+            console.log("About to call save bills")
             this.saveBills();
           }
         }
@@ -131,6 +132,15 @@ export class Tab2Page {
   }
   
   saveBills() {
+    console.log("Save bills called")
+    let a = []
+    a[0] = this.bills[this.bills.length - 1]
+    console.log(a)
+    new Promise((resolve) => {
+      this.network.post_bills('7c56334f-b8ac-4aab-83fd-9375715c6ae6', a).subscribe((bills) => {
+        resolve(true);
+      })
+    })
   }
 
   saveChores() {

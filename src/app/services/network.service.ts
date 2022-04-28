@@ -126,6 +126,14 @@ export class NetworkService {
     return this.http.get<Bill[]>(this.base_url + this.household_routes[3] + '/' + hid)
   }
 
+  post_bills(hid: string, bills: Bill[]) {
+    console.log(hid)
+    return this.http.post<Household>(this.base_url + this.household_routes[3] + '/' + hid, {
+      bills: bills
+    })
+      .pipe(catchError(this.errorHandler))
+  }
+
   get_chores(hid: string) {
     return this.http.get<Chore[]>(this.base_url + this.household_routes[4] + '/' + hid)
   }
