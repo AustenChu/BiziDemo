@@ -95,6 +95,7 @@ export class Tab2Page {
         {
           text: 'Save',
           handler: (data) => {
+            console.log(this.chores)
             this.chores.push({
               name: data.name,
               roomate: data.roomate,
@@ -118,6 +119,7 @@ export class Tab2Page {
     new Promise((resolve) => {
       this.network.get_bills(this.hid).subscribe((bills) => {
          //This allows us to check if the data has been loaded in or not
+        console.log(bills)
         this.bills = bills;
         resolve(true);
       });
@@ -128,6 +130,7 @@ export class Tab2Page {
     new Promise((resolve) => {
       this.network.get_chores(this.hid).subscribe((chores) => {
          //This allows us to check if the data has been loaded in or not
+        console.log(chores)
         this.chores = chores;
         resolve(true);
       });
@@ -155,11 +158,11 @@ export class Tab2Page {
   }
   
   deleteBill(bill: Bill) {
-     new Promise((resolve) => {
-        this.network.delete_bills(this.hid, bill.id).subscribe(bills => {
-          resolve(true)  
-        })
+    new Promise((resolve) => {
+      this.network.delete_bills(this.hid, bill.id).subscribe(bills => {
+        resolve(true)  
       })
+    })
     setTimeout(()=>{                           
       this.load();
     }, 1000);
@@ -171,5 +174,8 @@ export class Tab2Page {
           resolve(true)  
         })
       })
+      setTimeout(()=>{                           
+        this.load();
+      }, 500);
   }
 }
