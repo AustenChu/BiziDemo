@@ -19,7 +19,7 @@
     <ion-item>
       <ion-label> Title </ion-label>
       <ion-label> Roomie </ion-label>
-      <ion-label> Days </ion-label>
+      <ion-label> Date </ion-label>
     </ion-item>
     <ion-list>
       <ion-item-sliding *ngFor="let bill of bills">
@@ -40,7 +40,12 @@
     <ion-card-header>
       <ion-card-title>Chores</ion-card-title>
     </ion-card-header>
-
+    <ion-item>
+      <ion-label> Title </ion-label>
+      <ion-label> Roomie </ion-label>
+      <ion-label> Day </ion-label>
+    </ion-item>
+    
     <ion-list>
       <ion-item-sliding *ngFor="let chore of chores">
         <ion-item-options side="end">
