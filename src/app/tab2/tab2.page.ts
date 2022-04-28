@@ -69,6 +69,7 @@ export class Tab2Page {
   }
 
   async addChore() {
+    console.log("test1")
     this.alertCtrl.create({
       header: 'Add a chore',
       inputs: [
@@ -100,6 +101,7 @@ export class Tab2Page {
               roomate: data.roomate,
               day: data.day
             });
+            console.log("test2")
             this.saveChores();
           }
         }
@@ -155,11 +157,11 @@ export class Tab2Page {
   }
   
   deleteBill(bill: Bill) {
-     new Promise((resolve) => {
-        this.network.delete_bills(this.hid, bill.id).subscribe(bills => {
-          resolve(true)  
-        })
+    new Promise((resolve) => {
+      this.network.delete_bills(this.hid, bill.id).subscribe(bills => {
+        resolve(true)  
       })
+    })
     setTimeout(()=>{                           
       this.load();
     }, 500);

@@ -136,6 +136,7 @@ export class NetworkService {
   }
 
   post_chores(hid: string, chores: Chore[]) {
+    console.log("chores")
     return this.http.post<Household>(this.base_url + this.household_routes[4] + '/' + hid, {
       tasks: chores
     })
