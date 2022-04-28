@@ -31,7 +31,8 @@ export class DetailsPage implements OnInit {
     await this.storage.getData('hid').then(value => this.hid = value)
   }
   
-  ngOnInit() {
+  async ngOnInit() {
+    await this.storage.getData('hid').then(value => this.hid = value)
 
     // Get the id of the note from the URL
     let noteId = this.route.snapshot.paramMap.get('id');
