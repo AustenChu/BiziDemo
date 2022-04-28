@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User, Household } from '../types/network'
 import { Note } from '../types/note'
 import { Bill } from '../types/bill'
+import { Chore } from '../types/chore'
 import { Observable, EMPTY, Subject, throwError, timer } from 'rxjs'
 import { catchError, tap, switchAll, retryWhen, delayWhen }  from 'rxjs/operators'
 import { webSocket, WebSocketSubject  } from 'rxjs/webSocket';
@@ -13,8 +14,8 @@ import { webSocket, WebSocketSubject  } from 'rxjs/webSocket';
 export class NetworkService {
 
   base_url = 'http://brysonreese.duckdns.org:5000';
-  user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email']
-  household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit', '/api/v1/households/bills']
+  user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email', '/api/v1/user/hid']
+  household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit', '/api/v1/households/bills', '/api/v1/households/tasks']
 
   constructor(private http: HttpClient) {
   }
@@ -52,6 +53,11 @@ export class NetworkService {
 
   delete_user(uid: string) {
     return this.http.delete<string>(this.base_url + this.user_routes[0] + uid)
+      .pipe(catchError(this.errorHandler))
+  }
+
+  get_hid(uid: string) {
+    return this.http.get<string>(this.base_url + this.user_routes[3] + '/' + uid)
       .pipe(catchError(this.errorHandler))
   }
 
@@ -118,6 +124,10 @@ export class NetworkService {
 
   get_bills(hid: string) {
     return this.http.get<Bill[]>(this.base_url + this.household_routes[3] + '/' + hid)
+  }
+
+  get_chores(hid: string) {
+    return this.http.get<Chore[]>(this.base_url + this.household_routes[4] + '/' + hid)
   }
 
   private errorHandler(error: HttpErrorResponse) {

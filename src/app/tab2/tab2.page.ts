@@ -122,21 +122,15 @@ export class Tab2Page {
 
   loadChores() {
     new Promise((resolve) => {
-      this.storage.getData('chores').then((chores) => {
-          // Only set this.notes to the returned value if there were values stored
-          if(chores != null){
-            this.chores = chores;
-          }
-
-        // This allows us to check if the data has been loaded in or not
-        this.choresLoaded = true;
+      this.network.get_chores('7c56334f-b8ac-4aab-83fd-9375715c6ae6').subscribe((chores) => {
+         //This allows us to check if the data has been loaded in or not
+        this.chores = chores;
         resolve(true);
       });
     });
   }
   
   saveBills() {
-    this.storage.setData('bills', this.bills);
   }
 
   saveChores() {
