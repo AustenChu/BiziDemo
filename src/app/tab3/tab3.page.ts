@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tab3',
@@ -8,9 +9,13 @@ import { Component } from '@angular/core';
 export class Tab3Page {
 
   public users = [];
-  public errorMsg: string;
-   
+  public errorMsg: string; 
 
-  constructor() {}
+  constructor(private storage: StorageService) {}
+
+  get_jwt() {
+    console.log(this.storage.getData("id_token"))
+  }
 
 }
+

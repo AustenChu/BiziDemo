@@ -89,7 +89,6 @@ export class NetworkService {
 
   post_notes(hid: string, notes?: Note[]) {
     return this.http.post<Household>(this.base_url + this.household_routes[1] + '/' + hid, {
-      hid: hid,
       notes: notes
     })
       .pipe(catchError(this.errorHandler))
@@ -108,9 +107,8 @@ export class NetworkService {
   }
 
   edit_note(hid: string, nid: string, content: string) {
-    return this.http.put<Household>(this.base_url + this.household_routes[2] + '/' + nid, {
-      hid: hid,
-      nid: nid,
+    return this.http.put<Household>(this.base_url + this.household_routes[2] + '/' + hid, {
+      id: nid,
       content: content
     })
   }

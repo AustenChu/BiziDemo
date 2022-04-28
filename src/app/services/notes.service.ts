@@ -53,7 +53,7 @@ export class NotesService {
     });
 
     let a = []
-    a[0] = [this.notes[this.notes.length - 1]]
+    a[0] = this.notes[this.notes.length - 1]
     new Promise((resolve) => {
       this.network.post_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', a).subscribe((notes) => {
         resolve(true);
