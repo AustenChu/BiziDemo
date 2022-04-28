@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User, Household } from '../types/network'
 import { Note } from '../types/note'
+import { Bill } from '../types/bill'
 import { Observable, EMPTY, Subject, throwError, timer } from 'rxjs'
 import { catchError, tap, switchAll, retryWhen, delayWhen }  from 'rxjs/operators'
 import { webSocket, WebSocketSubject  } from 'rxjs/webSocket';
@@ -13,7 +14,7 @@ export class NetworkService {
 
   base_url = 'http://brysonreese.duckdns.org:5000';
   user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email']
-  household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit']
+  household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit', '/api/v1/households/bills']
 
   constructor(private http: HttpClient) {
   }
@@ -104,6 +105,7 @@ export class NetworkService {
       hid: hid,
       id: id
     })
+      .pipe(catchError(this.errorHandler))
   }
 
   edit_note(hid: string, nid: string, content: string) {
@@ -111,6 +113,11 @@ export class NetworkService {
       id: nid,
       content: content
     })
+      .pipe(catchError(this.errorHandler))
+  }
+
+  get_bills(hid: string) {
+    return this.http.get<Bill[]>(this.base_url + this.household_routes[3] + '/' + hid)
   }
 
   private errorHandler(error: HttpErrorResponse) {

@@ -37,6 +37,7 @@ export class AuthService {
 
   public async isLoggedIn() {
     const expiry = await this.storage.getData('id_token').then(value => (Number(atob(value.split('.')[1])))).catch(value => value)
+    console.log(expiry)
     //if there is a JWT in storage, returns the expiration of that data as a number. Else, returns an error
     if (typeof(expiry) === 'number') {
       return (Math.floor((new Date).getTime() / 1000)) >= expiry;
