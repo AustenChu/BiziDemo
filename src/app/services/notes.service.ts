@@ -44,13 +44,21 @@ export class NotesService {
   createNote(title: string): void {
 
     // Create a unique id that is one larger than the current largest id
-    let id = Math.max(...this.notes.map(note => parseInt(note.id)), 0) + 1;
+    let id = 3
 
     this.notes.push({
-      id: id.toString(),
       title: title,
       content: ''
     });
+
+
+    let a = []
+    a[0] = this.notes[this.notes.length - 1]
+    new Promise((resolve) => {
+      this.network.post_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', a).subscribe((notes) => {
+        resolve(true);
+      })
+    })
   }
 
   deleteNote(id): Promise<boolean> {
