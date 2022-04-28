@@ -13,7 +13,7 @@ export class NetworkService {
 
   base_url = 'http://brysonreese.duckdns.org:5000';
   user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email']
-  household_routes = ['/api/v1/households', '/api/v1/households/notes']
+  household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit']
 
   constructor(private http: HttpClient) {
   }
@@ -104,6 +104,14 @@ export class NetworkService {
     return this.http.put<Household>(this.base_url + this.household_routes[1] + '/' + hid, {
       hid: hid,
       id: id
+    })
+  }
+
+  edit_note(hid: string, nid: string, content: string) {
+    return this.http.put<Household>(this.base_url + this.household_routes[2] + '/' + nid, {
+      hid: hid,
+      nid: nid,
+      content: content
     })
   }
 

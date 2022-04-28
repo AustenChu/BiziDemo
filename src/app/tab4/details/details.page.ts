@@ -43,14 +43,12 @@ export class DetailsPage implements OnInit {
   }
 
   noteChanged(){
-    this.notesService.save();
+    this.notesService.save(this.note);
   }
 
   deleteNote(){
     this.notesService.deleteNote(this.note.id);
-    setTimeout(() => {
-      this.navCtrl.setDirection("back", true, "back");
-      this._location.back();
-    }, 100)
+    this.navCtrl.setDirection("back", true, "back");
+    this._location.back();
   }
 }

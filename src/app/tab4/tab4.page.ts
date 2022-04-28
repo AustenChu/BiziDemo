@@ -16,7 +16,10 @@ export class Tab4Page {
   }
 
   ionViewWillEnter() {
-    this.notesService.load();
+
+    setTimeout(() => {
+      this.notesService.load();
+    }, 100)
   }
 
   save() {

@@ -32,9 +32,13 @@ export class NotesService {
 
   }
 
-  save(): void {
+  save(note: Note): void {
     // Save the current array of notes to storage
-    this.storage.setData('notes', this.notes);
+    new Promise((resolve) => {
+      this.network.edit_note('7c56334f-b8ac-4aab-83fd-9375715c6ae6', note.id, note.content).subscribe((notes) => {
+        resolve(true)
+      });
+    });
   }
 
   getNote(id): Note {
@@ -43,17 +47,13 @@ export class NotesService {
   }
   createNote(title: string): void {
 
-    // Create a unique id that is one larger than the current largest id
-    let id = 3
-
     this.notes.push({
       title: title,
       content: ''
     });
 
-
     let a = []
-    a[0] = this.notes[this.notes.length - 1]
+    a[0] = [this.notes[this.notes.length - 1]]
     new Promise((resolve) => {
       this.network.post_notes('7c56334f-b8ac-4aab-83fd-9375715c6ae6', a).subscribe((notes) => {
         resolve(true);
