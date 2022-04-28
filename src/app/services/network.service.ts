@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { User, Household } from '../types/network'
+import { User, Household} from '../types/network'
 import { Note } from '../types/note'
 import { Bill } from '../types/bill'
 import { Chore } from '../types/chore'
@@ -13,9 +13,11 @@ import { webSocket, WebSocketSubject  } from 'rxjs/webSocket';
 })
 export class NetworkService {
 
+  public roommates: string[] = [];
+
   base_url = 'http://brysonreese.duckdns.org:5000';
   user_routes = ['/api/v1/users', '/api/v1/users/authenticate', '/api/v1/users/email', '/api/v1/users/hid']
-  household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit', '/api/v1/households/bills', '/api/v1/households/tasks']
+  household_routes = ['/api/v1/households', '/api/v1/households/notes', '/api/v1/households/notes/edit', '/api/v1/households/bills', '/api/v1/households/tasks', '/api/v1/households/names']
 
   constructor(private http: HttpClient) {
   }
@@ -158,5 +160,9 @@ export class NetworkService {
 
   private errorHandler(error: HttpErrorResponse) {
     return throwError(error.error.message || "Server Error")
+  }
+
+  get_roommates(hid: string) {
+    return this.http.get<string[]>((this.base_url + this.household_routes[5] + '/' + hid))
   }
 }

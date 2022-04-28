@@ -37,10 +37,9 @@
     </ion-item>
 
     <ion-list>
-      <ion-item>Fate</ion-item>
-      <ion-item>Cole</ion-item>
-      <ion-item>Connor</ion-item>
-      <ion-item>Bryson</ion-item>
+      <ion-item *ngFor="let name of roommates">
+      <ion-label>{{ name }}</ion-label>
+    </ion-item>
     </ion-list>
   </ion-card>
 

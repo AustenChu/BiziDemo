@@ -10,8 +10,10 @@ import { NetworkService } from '../services/network.service'
 })
 export class Tab3Page {
 
+  public hid: string;
   public users = [];
-  public errorMsg: string; 
+  public errorMsg: string;
+  public roommates = [];
 
   constructor(private storage: StorageService, private auth: AuthService, private network: NetworkService) {}
 
@@ -23,7 +25,10 @@ export class Tab3Page {
       })
     })
     await this.storage.getData('hid').then(hid => {
-      return 0
+      this.hid = hid
+    })
+    this.network.get_roommates(this.hid).subscribe((roommates) => {
+      this.roommates = roommates
     })
   }
 
