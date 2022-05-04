@@ -17,5 +17,7 @@
         </div>
       </ion-row>
     </div>
+    <ion-input [(ngModel)]="email_to_delete" type="text" placeholder="Email" required></ion-input>
+    <ion-button color="medium" (click)="remove_user()" size="small">Remove User</ion-button>
   </div>
 </ion-content>

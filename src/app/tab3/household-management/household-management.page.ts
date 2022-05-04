@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NetworkService } from '../../services/network.service'
 import { AlertController, LoadingController} from '@ionic/angular';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-household-management',
@@ -12,8 +13,10 @@ export class HouseholdManagementPage implements OnInit {
   emails: any[] = [];
   household=''
   loading: any
+  hid=''
+  email_to_delete=''
 
-  constructor(private networkService: NetworkService, private alertController: AlertController, private loadingController: LoadingController) { }
+  constructor(private storage: StorageService, private networkService: NetworkService, private alertController: AlertController, private loadingController: LoadingController) { }
 
   ngOnInit() {
     this.emails.push('')
@@ -42,6 +45,19 @@ export class HouseholdManagementPage implements OnInit {
       (error => {
         this.presentAlert("Unknown error", "", "Plese try again later")
       }))
+  }
+
+  async remove_user() {
+    await this.storage.getData('hid').then(hid => {
+      this.hid = hid
+    })
+    console.log(this.hid)
+    console.log(this.email_to_delete)
+    this.networkService.delete_user_from_household(this.hid, this.email_to_delete).subscribe(
+      data => {
+        console.log("done")
+      }
+    )
   }
 
   async presentAlert(h: string, s: string, m: string) {

@@ -86,8 +86,8 @@ export class NetworkService {
       .pipe(catchError(this.errorHandler))
   }
 
-  delete_user_from_household(hid: string, uid: string) {
-    return this.http.delete<string>(this.base_url + this.household_routes[0] + uid + '/' + hid)
+  delete_user_from_household(hid: string, email: string) {
+    return this.http.delete(this.base_url + this.household_routes[0] + '/' + hid + '/' + email)
       .pipe(catchError(this.errorHandler))
   }
 
